@@ -1,6 +1,6 @@
-﻿using SamLu.Utility.HiBiKiRadio.Info;
-using SamLu.Utility.HiBiKiRadio.Task;
-using SixLabors.ImageSharp;
+﻿using HiBikiRadioTool;
+using HiBikiRadioTool.Task;
+using SamLu.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,8 +30,8 @@ namespace HiBiKiRadioTool.Console
             //var informations = informationListTask.Run();
 
             ProgramDetailTask programDetail = new ProgramDetailTask();
-            var revuestarlight = programDetail.Run(access_id_revuestarlight).Result;
-            var siegfeld = programDetail.Run(access_id_siegfeld).Result;
+            var revuestarlight = programDetail.Run(access_id_revuestarlight);
+            var siegfeld = programDetail.Run(access_id_siegfeld);
 
             Work(revuestarlight);
             Work(siegfeld);
@@ -89,11 +89,11 @@ namespace HiBiKiRadioTool.Console
 
                     if (res.StatusCode.ToString() == "OK")
                     {
-                        Image downImage = Image.Load(imgRequest.GetResponse().GetResponseStream());
+                        System.Drawing.Image downImage = System.Drawing.Image.FromStream(imgRequest.GetResponse().GetResponseStream());
 
                         downImage.Save(photoFile.FullName);
                         downImage.Dispose();
-                    }
+                    } 
                 }
             }
 
@@ -111,7 +111,7 @@ namespace HiBiKiRadioTool.Console
             foreach (var recordFile in recordFiles)
             {
                 bool isAdditionalRecordFile = Path.GetFileNameWithoutExtension(recordFile.Name) == "gky";
-                string newPath = Path.Combine(recordFile.Directory!.FullName, $"{program.Name} {program.Episode.Name}{(isAdditionalRecordFile ? " 楽屋裏" : string.Empty)}{recordFile.Extension}");
+                string newPath = Path.Combine(recordFile.Directory.FullName, $"{program.Name} {program.Episode.Name}{(isAdditionalRecordFile ? " 楽屋裏" : string.Empty)}{recordFile.Extension}");
                 if (!File.Exists(newPath))
                 {
                     recordFile.MoveTo(newPath);
@@ -121,24 +121,24 @@ namespace HiBiKiRadioTool.Console
             if (!mainRecordFileExists && !(program.Episode.Video is null))
             {
                 PlayCheckTask playCheckTask = new PlayCheckTask();
-                var video = playCheckTask.Run(program.Episode.Video.ID).Result;
+                var video = playCheckTask.Run(program.Episode.Video.ID);
                 //try
                 //{
-                DownloadVideo(video, Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name}.aac"));
+                    DownloadVideo(video, Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name}.aac"));
                 //}
                 //catch (Exception) { }
             }
             if (!additionalRecordFileExists && !(program.Episode.AdditionalVideo is null))
             {
                 PlayCheckTask playCheckTask = new PlayCheckTask();
-                var video = playCheckTask.Run(program.Episode.AdditionalVideo.ID).Result;
+                var video = playCheckTask.Run(program.Episode.AdditionalVideo.ID);
                 //try
                 //{
-                DownloadVideo(video, Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name} 楽屋裏.aac"));
+                    DownloadVideo(video, Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name} 楽屋裏.aac"));
                 //}
                 //catch (Exception) { }
             }
-
+            
             // 重命名视频文件。
             var videoFiles =
                 from file in Directory.GetFiles(@"F:\", "*.mp4", SearchOption.TopDirectoryOnly)
@@ -166,7 +166,7 @@ namespace HiBiKiRadioTool.Console
         private static void DownloadVideo(PlaylistInfo video, string path)
         {
             PlaylistTask playlistTask = new PlaylistTask();
-            playlistTask.Download(video.PlaylistUri!, new PlaylistTask.DownloadSettings(path)).Wait();
+            playlistTask.Download(video.PlaylistUri, path);
         }
     }
 }
