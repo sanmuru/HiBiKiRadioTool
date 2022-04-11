@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!--<TargetFrameworks>net6.0;netcoreapp3.1;net35</TargetFrameworks>-->
+	<TargetFrameworks>net6.0</TargetFrameworks>
+	<RootNamespace>HiBiKiRadioTool.Console</RootNamespace>
+    <AssemblyName>hbkr</AssemblyName>
+	<LangVersion>latestMajor</LangVersion>
+	<Nullable>enable</Nullable>
+	<DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" />
+  </ItemGroup>
+
+  <Import Condition="'$(TargetFramework)' == 'netstandard2.0'" Project="..\..\Shared\NullableAttributes\NullableAttributes.projitems" Label="Shared" />
+
+  <Import Condition="'$(TargetFramework)' == 'net35'" Project="..\..\Shared\NullableAttributes\NullableAttributes.projitems" Label="Shared" />
+
+</Project>

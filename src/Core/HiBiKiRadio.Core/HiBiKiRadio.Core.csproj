@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;netcoreapp3.1;netstandard2.0;net35</TargetFrameworks>
+    <RootNamespace>SamLu.Utility.HiBiKiRadio</RootNamespace>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<LangVersion>latestMajor</LangVersion>
+	<Nullable>enable</Nullable>
+	<DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="System.Net.Http.Json">
+      <Version>6.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <PackageReference Include="System.Net.Http.Json">
+      <Version>6.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Net.Http.Json">
+      <Version>6.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
+	<PackageReference Include="Newtonsoft.Json">
+		<Version>13.0.1</Version>
+	</PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="6.0.2" />
+  </ItemGroup>
+
+  <Import Condition="'$(TargetFramework)' == 'netstandard2.0'" Project="..\..\Shared\NullableAttributes\NullableAttributes.projitems" Label="Shared" />
+
+  <Import Condition="'$(TargetFramework)' == 'net35'" Project="..\..\Shared\NullableAttributes\NullableAttributes.projitems" Label="Shared" />
+
+</Project>

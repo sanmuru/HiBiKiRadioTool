@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <BaseOutputPath>$(SolutionDir)artifacts\bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)artifacts\obj\</BaseIntermediateOutputPath>
+    <Version>0.2.0.0</Version>
+  </PropertyGroup>
+</Project>

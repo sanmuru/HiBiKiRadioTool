@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<FFmpegToolsPath>D:\Program Files\FFmpeg</FFmpegToolsPath>
+		<FFmpegToolsVersion>5.0.1</FFmpegToolsVersion>
+	</PropertyGroup>
+</Project>

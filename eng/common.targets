@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<UsingTask TaskName="DownloadProgramAudio"
+			   AssemblyName="HiBiKiRadio.Build.Tasks"/>
+
+	<Target Name="DownloadAndRenderAndUpload">
+		<DownloadProgramAudio
+			ProgramId="$(ProgramId)"
+			Output="">
+			<Output TaskParameter="ProgramName" PropertyName="ProgramName"/>
+			<Output TaskParameter="EpisodeName" PropertyName="EpisodeName"/>
+		</DownloadProgramAudio>
+	</Target>
+</Project>
