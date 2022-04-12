@@ -33,10 +33,10 @@ namespace HiBiKiRadioTool.Console
             var revuestarlight = programDetail.FetchAsync(access_id_revuestarlight);
             var siegfeld = programDetail.FetchAsync(access_id_siegfeld);
 
-            Work(revuestarlight).Wait();
-            Work(siegfeld).Wait();
+            var task_revuestarlight = Work(revuestarlight);
+            var task_siegfeld = Work(siegfeld);
 
-            //Task.WaitAll(new[] { task_revuestarlight, task_siegfeld });
+            Task.WaitAll(new[] { task_revuestarlight, task_siegfeld });
         }
 
         private static async Task Work(Task<ProgramInfo> task)
@@ -44,7 +44,7 @@ namespace HiBiKiRadioTool.Console
             var program = await task;
 
             // 创建广播对应文件夹。
-            DirectoryInfo radioDir = new DirectoryInfo(@"F:\少女☆歌劇 レヴュースタァライト\广播");
+            DirectoryInfo radioDir = new(@"F:\少女☆歌劇 レヴュースタァライト\广播");
             DirectoryInfo programDir = radioDir.CreateSubdirectory(program.Name);
             DirectoryInfo episodeDir = programDir.CreateSubdirectory(Regex.Match(program.Episode.Name, @"第(?<num>\d+)回|(?<num>.+)").Groups["num"].Value);
             episodeDir.Create();
@@ -110,26 +110,30 @@ namespace HiBiKiRadioTool.Console
                     if (isAdditionalRecordFile) additionalRecordFileExists = true; else mainRecordFileExists = true;
                 }
             }
+            
+            List<Task> tasks = new(2);
+            PlayCheckTask playCheckTask = new();
+            DirectoryInfo tempRoot = episodeDir.CreateSubdirectory("temp");
             if (!mainRecordFileExists && !(program.Episode.Video == null))
             {
-                PlayCheckTask playCheckTask = new();
-                var video = await playCheckTask.CheckAsync(program.Episode.Video.ID);
-                //try
-                //{
-                await DownloadVideo(video, Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name}.aac"));
-                //}
-                //catch (Exception) { }
+                tasks.Add(
+                    playCheckTask.CheckAsync(program.Episode.Video.ID).ContinueWith(
+                        t => DownloadVideo(t.Result, new(Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name}.aac"), tempRoot.FullName)).Wait(),
+                        TaskContinuationOptions.OnlyOnRanToCompletion
+                    )
+                );
             }
             if (!additionalRecordFileExists && !(program.Episode.AdditionalVideo == null))
             {
-                PlayCheckTask playCheckTask = new();
-                var video = await playCheckTask.CheckAsync(program.Episode.AdditionalVideo.ID);
-                //try
-                //{
-                await DownloadVideo(video, Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name} 楽屋裏.aac"));
-                //}
-                //catch (Exception) { }
+                tasks.Add(
+                    playCheckTask.CheckAsync(program.Episode.AdditionalVideo.ID).ContinueWith(
+                        t => DownloadVideo(t.Result, new(Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name} 楽屋裏.aac"), tempRoot.FullName)).Wait(),
+                        TaskContinuationOptions.OnlyOnRanToCompletion
+                    )
+                );
             }
+            Task.WaitAll(tasks.ToArray());
+            tempRoot.Delete(true);
 
             // 重命名视频文件。
             var videoFiles =
@@ -155,19 +159,18 @@ namespace HiBiKiRadioTool.Console
             }
         }
 
-        private static async Task DownloadVideo(PlaylistInfo video, string path)
+        private static async Task DownloadVideo(PlaylistInfo video, PlaylistTask.DownloadSettings settings)
         {
             PlaylistTask playlistTask = new();
-            DirectoryInfo outDir = new DirectoryInfo(path);
+            DirectoryInfo outDir = new(settings.OutputPath);
 
             var hls = video.PlaylistUri;
-            var settings = new PlaylistTask.DownloadSettings(path);
 
-            DirectoryInfo tempRoot = new FileInfo(settings.OutputPath).Directory!.CreateSubdirectory("temp");
+            DirectoryInfo tempRoot = settings.TempPath is null ? new FileInfo(settings.OutputPath).Directory!.CreateSubdirectory("temp") : new DirectoryInfo(settings.TempPath);
+            if (!tempRoot.Exists) tempRoot.Create();
             DirectoryInfo temp = tempRoot.CreateSubdirectory(Path.GetRandomFileName());
             tempRoot.Attributes |= FileAttributes.Hidden;
 
-            Environment.CurrentDirectory = temp.FullName;
             FileInfo playlist = new(Path.Combine(temp.FullName, "playlist"));
             FileInfo outputMp4 = new(Path.Combine(temp.FullName, "output.mp4"));
             FileInfo outputAac = new(Path.Combine(temp.FullName, "output.aac"));
@@ -194,27 +197,25 @@ namespace HiBiKiRadioTool.Console
             process.StartInfo.Arguments = string.Join(" ", new[]
             {
                 "-f", "concat",
-                "-i", playlist.Name,
+                "-i", playlist.FullName,
                 "-bsf:a", "aac_adtstoasc",
                 "-c", "copy",
-                outputMp4.Name
+                outputMp4.FullName
             }.Select(span => span.Contains(' ') ? '"' + span + '"' : span).ToArray());
             process.Start();
             process.WaitForExit();
 
             process.StartInfo.Arguments = string.Join(" ", new[]
             {
-                "-i", outputMp4.Name,
+                "-i", outputMp4.FullName,
                 "-vn",
                 "-acodec", "copy",
-                outputAac.Name
+                outputAac.FullName
             }.Select(span => span.Contains(' ') ? '"' + span + '"' : span).ToArray());
             process.Start();
             process.WaitForExit();
 
             outputAac.MoveTo(settings.OutputPath);
-            Environment.CurrentDirectory = tempRoot.Parent!.FullName; // 切换到上层目录防止占用目录，导致无法删除目录。
-            tempRoot.Delete(true);
         }
     }
 }

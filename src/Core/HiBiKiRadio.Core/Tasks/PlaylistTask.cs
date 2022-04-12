@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 #if !NET35
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 #endif
@@ -17,13 +18,40 @@ namespace SamLu.Utility.HiBiKiRadio.Tasks
         public sealed class DownloadSettings
         {
             public string OutputPath { get; set; }
-            public string TempPath { get; set; }
+            public string? TempPath { get; set; }
 
+
+            /// <inheritdoc cref="DownloadSettings(string, string?)"/>
             /// <summary>
             /// 使用指定的输出目录初始化 <see cref="DownloadSettings"/> 的实例。
             /// </summary>
-            /// <param name="path">下载的文件的输出目录。</param>
-            public DownloadSettings(string path) => this.OutputPath = path ?? throw new ArgumentNullException(nameof(path));
+            public DownloadSettings(string outPath) : this(outPath, null) { }
+
+            /// <summary>
+            /// 使用指定的输出目录和临时文件目录初始化 <see cref="DownloadSettings"/> 的实例。
+            /// </summary>
+            /// <param name="outPath">下载的文件的输出目录。</param>
+            /// <param name="tempPath">存放下载操作的临时文件目录。</param>
+            public DownloadSettings(string outPath, string? tempPath)
+            {
+                this.OutputPath = outPath ?? throw new ArgumentNullException(nameof(outPath));
+                this.TempPath = tempPath;
+            }
+        }
+
+#if !NET35
+        private HttpClient client;
+        public override IDisposable Client => this.client;
+        
+        public override void Dispose() => this.client.Dispose();
+#endif
+
+        public PlaylistTask()
+        {
+#if !NET35
+            this.client = new(new HttpClientHandler() { UseCookies = true });
+            httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+#endif
         }
 
         #region Download

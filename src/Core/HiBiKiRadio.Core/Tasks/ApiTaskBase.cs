@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-#if NET35
 using System.Net;
+#if NET35
 using Newtonsoft.Json;
 #else
 using System.Net.Http;
@@ -16,7 +16,7 @@ namespace SamLu.Utility.HiBiKiRadio.Tasks
 	/// <summary>
 	/// 通过HiBiKi官方API完成的任务的基类，提供基础获取数据的方法。
 	/// </summary>
-	public abstract partial class ApiTaskBase
+	public abstract partial class ApiTaskBase : IDisposable
 	{
 		/// <summary>
 		/// HiBiKi官方API的主机地址。
@@ -31,25 +31,40 @@ namespace SamLu.Utility.HiBiKiRadio.Tasks
 		/// </summary>
 		public static readonly Uri ApiBase = new(ApiHost, "/api/v1/");
 
+        /// <summary>
+        /// 内部执行下载数据的<see cref="WebClient"/>对象。
+        /// </summary>
+#if !NET35
+        [Obsolete("请使用" + nameof(ApiTaskBase) + "." + nameof(httpClient) + "代替。")]
+#endif
+		protected static readonly WebClient webClient;
+
+#if !NET35
 		/// <summary>
-		/// 内部执行下载数据的客户端对象。
+		/// 内部执行下载数据的<see cref="HttpClient"/>对象。
 		/// </summary>
+		protected static readonly HttpClient httpClient;
+#endif
+
+		public virtual IDisposable Client =>
 #if NET35
-		protected static readonly WebClient client;
+			ApiTaskBase.webClient;
 #else
-		protected static readonly HttpClient client;
+			ApiTaskBase.httpClient;
 #endif
 
 		static ApiTaskBase()
 		{
 #if NET35
-			client ??= new();
-			client.Headers.Add("X-Requested-With", "XMLHttpRequest");
+			webClient ??= new();
+			webClient.Headers.Add("X-Requested-With", "XMLHttpRequest");
 #else
-			client ??= new(new HttpClientHandler() { UseCookies = true });
-			client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+			httpClient ??= new(new HttpClientHandler() { UseCookies = true });
+			httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
 #endif
 		}
+
+		public virtual void Dispose() { }
 
 		protected ApiTaskBase() { }
 
@@ -59,9 +74,9 @@ namespace SamLu.Utility.HiBiKiRadio.Tasks
 			Debug.Assert(requestUri is not null);
 
 #if NET35
-			return client.DownloadData(requestUri);
+			return ((WebClient)this.Client).DownloadData(requestUri);
 #else
-			return client.GetByteArrayAsync(requestUri).Result;
+			return ((HttpClient)this.Client).GetByteArrayAsync(requestUri).Result;
 #endif
 		}
 
@@ -70,7 +85,7 @@ namespace SamLu.Utility.HiBiKiRadio.Tasks
 		{
 			Debug.Assert(requestUri is not null);
 
-			return client.GetByteArrayAsync(requestUri, cancellationToken).Result;
+			return ((HttpClient)this.Client).GetByteArrayAsync(requestUri, cancellationToken).Result;
 		}
 #endif
 
@@ -138,18 +153,18 @@ namespace SamLu.Utility.HiBiKiRadio.Tasks
         }
 #endif
 #endif
-        #endregion
+		#endregion
 
-        #region FetchAs
+		#region FetchAs
         protected virtual T FetchAs<T>(Uri requestUri)
 		{
 			Debug.Assert(requestUri is not null);
 
 #if NET35
-			var json = client.DownloadString(requestUri);
+			var json = ((WebClient)this.Client).DownloadString(requestUri);
 			var obj = JsonConvert.DeserializeObject<T>(json);
 #else
-			var obj = client.GetFromJsonAsync<T>(requestUri).Result;
+			var obj = ((HttpClient)this.Client).GetFromJsonAsync<T>(requestUri).Result;
 #endif
 			if (obj is null) throw new JsonException("无法包装JSON。");
 			return obj;
@@ -160,7 +175,7 @@ namespace SamLu.Utility.HiBiKiRadio.Tasks
 		{
 			Debug.Assert(requestUri is not null);
 
-			return client.GetFromJsonAsync<T>(requestUri, cancellationToken).Result ??
+			return ((HttpClient)this.Client).GetFromJsonAsync<T>(requestUri, cancellationToken).Result ??
 				throw new JsonException("无法解析JSON。");
 		}
 #endif
@@ -229,6 +244,6 @@ namespace SamLu.Utility.HiBiKiRadio.Tasks
         }
 #endif
 #endif
-        #endregion
+		#endregion
     }
 }
