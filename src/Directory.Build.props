@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <BaseOutputPath>$(SolutionDir)artifacts\bin\</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(SolutionDir)artifacts\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)artifacts\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <Version>0.2.0.1</Version>
   </PropertyGroup>
 </Project>

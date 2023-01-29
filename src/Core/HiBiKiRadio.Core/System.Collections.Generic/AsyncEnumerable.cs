@@ -1,23 +1,26 @@
 ﻿#if !NET35
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace System.Collections.Generic
+namespace System.Collections.Generic;
+
+public static class AsyncEnumerable
 {
-    public static class AsyncEnumerable
+    public static IEnumerable<T> Synchronize<T>(this IAsyncEnumerable<T> enumerable, CancellationToken cancellationToken = default)
     {
-        public static IEnumerable<T> Synchronize<T>(this IAsyncEnumerable<T> enumerable, CancellationToken cancellationToken = default)
-        {
-            if (enumerable is null) throw new ArgumentNullException(nameof(enumerable));
+        if (enumerable is null) throw new ArgumentNullException(nameof(enumerable));
 
-            var enumerator = enumerable.GetAsyncEnumerator(cancellationToken);
-            while (enumerator.MoveNextAsync().AsTask().Result)
-                yield return enumerator.Current;
-        }
+        var enumerator = enumerable.GetAsyncEnumerator(cancellationToken);
+        while (enumerator.MoveNextAsync().AsTask().Result)
+            yield return enumerator.Current;
+    }
+
+    public static async IAsyncEnumerable<T> Asynchronize<T>(this IEnumerable<T> enumerable)
+    {
+        if (enumerable is null) throw new ArgumentNullException(nameof(enumerable));
+
+        var enumerator = enumerable.GetEnumerator();
+        while (enumerator.MoveNext())
+            yield return await Task.FromResult(enumerator.Current).ConfigureAwait(false);
     }
 }
+
 #endif

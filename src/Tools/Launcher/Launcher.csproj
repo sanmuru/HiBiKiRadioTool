@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net7.0-windows;net6.0-windows;net481;net472;net35</TargetFrameworks>
+	  <RootNamespace>HiBiKiRadioTool.Launcher</RootNamespace>
+    <AssemblyName>hbkr-gui</AssemblyName>
+    <LangVersion>latestMajor</LangVersion>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+	  <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net45'))">
+    <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net45'))">
+    <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\Shared\NullableAttributes\NullableAttributes.projitems" Label="Shared" />
+
+</Project>

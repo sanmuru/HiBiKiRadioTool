@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace SamLu.Utility.HiBiKiRadio.M3U8;
 
-namespace SamLu.Utility.HiBiKiRadio.M3U8
+public abstract class Insection
 {
-    public abstract class Insection
+    public InsectionType Type { get; }
+
+    protected Insection(InsectionType type) => this.Type = type;
+
+    public static Insection CreateComment(string text)
     {
-        public InsectionType Type { get; }
+        if (text is null) throw new ArgumentNullException(nameof(text));
+        return new CommentInsection(text);
+    }
 
-        protected Insection(InsectionType type) => this.Type = type;
+    public static Insection CreateTag(M3U8Tag tag, string? value = null)
+    {
+        if (value is null)
+            return new TagInsection(tag);
+        else
+            return new TagInsection(tag, value);
+    }
 
-        public static Insection CreateComment(string text) => new CommentInsection(text);
+    public static Insection CreateUri(Uri uri, M3U8Key? key = null)
+    {
+        if (uri is null) throw new ArgumentNullException(nameof(uri));
 
-        public static Insection CreateTag(M3U8Tag tag, string value = null)
-        {
-            if (value is null)
-                return new TagInsection(tag);
-            else
-                return new TagInsection(tag, value);
-        }
-
-        public static Insection CreateUri(Uri uri, M3U8Key key)
-        {
-            if (uri is null) throw new ArgumentNullException(nameof(uri));
-
-            return new UriInsection(uri, key);
-        }
+        return new UriInsection(uri, key);
     }
 }

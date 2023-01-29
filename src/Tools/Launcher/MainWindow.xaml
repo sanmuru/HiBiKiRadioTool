@@ -1,0 +1,40 @@
+﻿<Window x:Class="HiBiKiRadioTool.Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HiBiKiRadioTool.Launcher"
+        xmlns:info="clr-namespace:SamLu.Utility.HiBiKiRadio.Info;assembly=HiBiKiRadio.Core"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="节目列表">
+                <ListView x:Name="lvProgramList" ItemsSource="{Binding Source={x:Static local:DataModelView.AllPrograms}}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type info:ProgramInfo}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0" Source="{Binding SPImageUri}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+            <TabItem Header="下载任务">
+                <ListView>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Length}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

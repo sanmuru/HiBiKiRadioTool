@@ -1,11 +1,20 @@
-﻿using System;
+﻿namespace SamLu.Utility.HiBiKiRadio.Info;
 
-namespace SamLu.Utility.HiBiKiRadio.Info
+/// <summary>
+/// 表示包裹JSON映射对象的类型的基类。
+/// </summary>
+/// <typeparam name="T">被包裹的JSON映射对象的类型。</typeparam>
+public abstract class JsonObjectInfo<T> where T : notnull
 {
-    public abstract class JsonObjectInfo<T> where T : class
-    {
-        protected readonly T jObject;
+    /// <summary>
+    /// 被包裹的JSON映射对象。
+    /// </summary>
+    protected readonly T jObject;
 
-        protected JsonObjectInfo(T jObject) => this.jObject = jObject ?? throw new ArgumentNullException(nameof(jObject));
-    }
+    /// <summary>
+    /// 子类调用以初始化新实例，设置包裹的JSON映射对象。
+    /// </summary>
+    /// <param name="jObject">被包裹的JSON映射对象。</param>
+    /// <exception cref="ArgumentNullException"><paramref name="jObject"/>的值为<see langword="null"/>。</exception>
+    protected JsonObjectInfo(T jObject) => this.jObject = jObject ?? throw new ArgumentNullException(nameof(jObject));
 }
