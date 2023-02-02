@@ -106,7 +106,7 @@ public class PlaylistTask : ApiTaskBase
             var segments = new string[segmentsLength];
             Array.Copy(m3u8Uri.Segments, segments, segmentsLength);
             Uri host = new(
-                m3u8Uri.GetLeftPart(UriPartial.Authority) + string.Concat(segments)
+                m3u8Uri.Scheme + m3u8Uri.Authority + string.Concat(segments)
             );
             file = new Uri(host, clip.Uri); // 组合获得文件地址的绝对路径。
         }

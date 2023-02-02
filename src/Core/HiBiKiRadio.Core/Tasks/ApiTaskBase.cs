@@ -56,7 +56,7 @@ public abstract partial class ApiTaskBase : IDisposable
 		{
 			var json = this.Client.GetStringAsync(requestUri, cancellationToken).Result;
 			T? result;
-#if NET35
+#if NET35 || NETSTANDARD1_3
 			result = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
 #else
 			result = System.Text.Json.JsonSerializer.Deserialize<T>(json);

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net7.0;net6.0;net481;net472;net35</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;net462;net35</TargetFrameworks>
 	  <RootNamespace>HiBiKiRadioTool.Console</RootNamespace>
     <AssemblyName>hbkr</AssemblyName>
 	  <LangVersion>latestMajor</LangVersion>

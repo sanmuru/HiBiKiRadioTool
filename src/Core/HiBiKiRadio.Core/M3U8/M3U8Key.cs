@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography;
 
 namespace SamLu.Utility.HiBiKiRadio.M3U8;
 
@@ -34,9 +36,13 @@ public class M3U8Key : IDisposable
                     break;
             }
         }
+
+        Debug.Assert(this.Method is not null);
+        Debug.Assert(this.Uri is not null);
+        Debug.Assert(this.IV is not null);
     }
 
-    protected ICryptoTransform transform;
+    protected ICryptoTransform? transform;
 
     public virtual Stream EncryptStream(Stream stream, Func<Uri, byte[]> keyProvider, CancellationToken cancellationToken = default)
     {
@@ -78,7 +84,7 @@ public class M3U8Key : IDisposable
         {
             if (disposing)
             {
-                this.transform.Dispose();
+                this.transform?.Dispose();
             }
 
             disposedValue = true;

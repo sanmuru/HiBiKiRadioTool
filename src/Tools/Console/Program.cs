@@ -4,6 +4,7 @@
 
 using SamLu.Utility.HiBiKiRadio.Info;
 using SamLu.Utility.HiBiKiRadio.Tasks;
+using System.Diagnostics;
 
 namespace HiBiKiRadioTool.Console;
 
