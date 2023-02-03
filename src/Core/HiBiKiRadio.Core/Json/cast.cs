@@ -1,6 +1,6 @@
 ﻿namespace SamLu.Utility.HiBiKiRadio.Json;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CS8618
 public class cast
 {
     public int id { get; set; }

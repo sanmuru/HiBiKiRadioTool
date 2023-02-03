@@ -5,9 +5,17 @@
     <TargetFrameworks>net7.0;net6.0;netstandard2.0;netstandard1.3;net462;net35</TargetFrameworks>
 	  <RootNamespace>SamLu.Utility.HiBiKiRadio.Build.Tasks</RootNamespace>
     <LangVersion>latestMajor</LangVersion>
+    <Nullable>enable</Nullable>
 	  <DebugType>embedded</DebugType>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.IO" />
+    <Using Include="System.Linq" />
+  </ItemGroup>
+  
   <Choose>
     <When Condition="'$(TargetFramework)' == 'net7.0'">
       <ItemGroup>
@@ -34,8 +42,8 @@
     <When Condition="'$(TargetFramework)' == 'netstandard1.3'">
       <ItemGroup>
         <PackageReference Include="Microsoft.Build" Version="14.3.0" />
-        <PackageReference Include="Microsoft.Build.Framework" Version="15.6.85" />
-        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.6.85" />
+        <PackageReference Include="Microsoft.Build.Framework" Version="14.3.0" />
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="14.3.0" />
       </ItemGroup>
     </When>
   
@@ -71,5 +79,9 @@
   </ItemGroup>
 
   <Import Project="..\..\Shared\NullableAttributes\NullableAttributes.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <None Remove="InfoItem.cs~RF302c85.TMP" />
+  </ItemGroup>
 
 </Project>

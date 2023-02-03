@@ -96,14 +96,14 @@ class Program
 #endif
             }
         }
-
-        string[] avaliableExtensions = { ".wav", ".flac", ".mp3", ".aac", ".wma" };
+        
+        string[] availableExtensions = { ".wav", ".flac", ".mp3", ".aac", ".wma" };
         // 重命名录音文件。
         var recordFiles =
             from fi in episodeDir.GetFiles("*.*", SearchOption.TopDirectoryOnly)
             let fileName = Path.GetFileNameWithoutExtension(fi.FullName)
             let fileExtension = fi.Extension
-            where avaliableExtensions.Contains(fileExtension)
+            where availableExtensions.Contains(fileExtension)
             where fileName == "gky" || fileName == Regex.Match(program.Episode.Name, @"第(?<num>\d+)回|(?<num>.+)").Groups["num"].Value
             select fi;
         bool mainRecordFileExists = File.Exists(Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name}.aac"));
