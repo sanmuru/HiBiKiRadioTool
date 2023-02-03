@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net7.0-windows;net6.0-windows;net481;net472;net35</TargetFrameworks>
+    <TargetFrameworks>net7.0-windows;net6.0-windows;net481;net462;net35</TargetFrameworks>
 	  <RootNamespace>HiBiKiRadioTool.Launcher</RootNamespace>
     <AssemblyName>hbkr-gui</AssemblyName>
     <LangVersion>latestMajor</LangVersion>

@@ -1,4 +1,6 @@
-﻿namespace SamLu.Utility.HiBiKiRadio.Tasks;
+﻿#if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER || NETCOREAPP2_0_OR_GREATER
+
+namespace SamLu.Utility.HiBiKiRadio.Tasks;
 
 partial class ApiTaskBase
 {
@@ -46,3 +48,5 @@ partial class ApiTaskBase
         #endregion
     }
 }
+
+#endif

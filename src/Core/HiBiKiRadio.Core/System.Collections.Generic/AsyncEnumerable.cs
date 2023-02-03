@@ -1,4 +1,4 @@
-﻿#if !NET35
+﻿#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
 namespace System.Collections.Generic;
 

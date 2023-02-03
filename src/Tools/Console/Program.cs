@@ -1,8 +1,4 @@
-﻿#if NET35
-#pragma warning disable CS1998, CS4014
-#endif
-
-using SamLu.Utility.HiBiKiRadio.Info;
+﻿using SamLu.Utility.HiBiKiRadio.Info;
 using SamLu.Utility.HiBiKiRadio.Tasks;
 
 namespace HiBiKiRadioTool.Console;

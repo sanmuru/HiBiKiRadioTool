@@ -18,7 +18,7 @@ public class DownloadProgramAudio : Task
     public override bool Execute()
     {
         ProgramDetailTask programDetailTask = new();
-        var program = programDetailTask.Fetch(this.ProgramId.ItemSpec);
+        var program = programDetailTask.FetchAsync(this.ProgramId.ItemSpec).Result;
 
         this.ProgramName = new TaskItem(program.Name);
         this.EpisodeName = new TaskItem(program.Episode.Name);
