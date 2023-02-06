@@ -46,7 +46,7 @@ public class ProgramDetail : Task
 
     public override bool Execute()
     {
-        var program = new ProgramItem(new ProgramDetailTask().FetchAsync(ID).Result);
+        var program = new ProgramDetailTask().FetchAsync(ID).Result.AsProgramTaskItem();
         ExposeProgram(program,
             out var additionalVideo,
             out var casts,
@@ -71,16 +71,16 @@ public class ProgramDetail : Task
         return true;
     }
 
-    internal static void ExposeProgram(ProgramItem program,
-        out VideoItem? additionalVideo,
-        out CastItem[] casts,
-        out ChapterItem[] chapters,
-        out EpisodeItem episode,
-        out EpisodePartItem[] episodeParts,
-        out ProgramLinkItem[] programLinks,
-        out SegmentItem[] segments,
-        out SegmentPartItem[] segmentParts,
-        out VideoItem? video)
+    public static void ExposeProgram(IProgramTaskItem program,
+        out IVideoTaskItem? additionalVideo,
+        out ICastTaskItem[] casts,
+        out IChapterTaskItem[] chapters,
+        out IEpisodeTaskItem episode,
+        out IEpisodePartTaskItem[] episodeParts,
+        out IProgramLinkTaskItem[] programLinks,
+        out ISegmentTaskItem[] segments,
+        out ISegmentPartTaskItem[] segmentParts,
+        out IVideoTaskItem? video)
     {
         casts = program.Casts;
         episode = program.Episode;
@@ -90,11 +90,11 @@ public class ProgramDetail : Task
         ExposeSegments(program.Segments, out segmentParts);
     }
 
-    internal static void ExposeEpisode(EpisodeItem episode,
-        out VideoItem? additionalVideo,
-        out ChapterItem[] chapters,
-        out EpisodePartItem[] episodeParts,
-        out VideoItem? video)
+    public static void ExposeEpisode(IEpisodeTaskItem episode,
+        out IVideoTaskItem? additionalVideo,
+        out IChapterTaskItem[] chapters,
+        out IEpisodePartTaskItem[] episodeParts,
+        out IVideoTaskItem? video)
     {
         additionalVideo = episode.AdditionalVideo;
         chapters = episode.Chapters;
@@ -102,8 +102,8 @@ public class ProgramDetail : Task
         video = episode.Video;
     }
 
-    internal static void ExposeSegments(SegmentItem[] segments,
-        out SegmentPartItem[] segmentParts)
+    public static void ExposeSegments(ISegmentTaskItem[] segments,
+        out ISegmentPartTaskItem[] segmentParts)
     {
         segmentParts = segments.SelectMany(item => item.SegmentParts).ToArray();
     }

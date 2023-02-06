@@ -11,7 +11,7 @@
 	  <DebugType>embedded</DebugType>
 
     <NoWarn>CS1591;$(NoWarn)</NoWarn>
-    <NoWarn Condition="'$(TargetFramework)' != 'net6.0'">CS8600;CS8603;CS8604;CS8618;$(NoWarn)</NoWarn>
+    <NoWarn Condition="'$(TargetFramework)' != 'net6.0'">CS8600;CS8602;CS8603;CS8604;CS8618;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

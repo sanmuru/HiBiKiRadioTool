@@ -10,6 +10,8 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
 	  <DebugType>embedded</DebugType>
+
+    <NoWarn Condition="'$(TargetFramework)' != 'net7.0-windows'">CS8600;CS8602;CS8603;CS8604;CS8618;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net45'))">

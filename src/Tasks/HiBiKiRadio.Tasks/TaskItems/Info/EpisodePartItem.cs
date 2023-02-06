@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
-internal sealed class EpisodePartItem : InfoItem<Info.EpisodePartInfo, Json.episode_part>
+internal sealed class EpisodePartItem : InfoItem<Info.EpisodePartInfo, Json.episode_part>, IEpisodePartTaskItem
 {
     public int ID => this.info.ID;
     public string Description => this.info.Description;
@@ -16,7 +16,7 @@ internal sealed class EpisodePartItem : InfoItem<Info.EpisodePartInfo, Json.epis
 
     public EpisodePartItem(Info.EpisodePartInfo info) : base(info) { }
 
-    protected override string ItemSpec { get => this.Description; [DoesNotReturn] set => ThrowEditReadOnlyException(); }
+    protected override string ItemSpec { get => this.Description; [DoesNotReturn] set => TaskItemExtensions.ThrowEditReadOnlyException(); }
 
     protected override List<string> MetadataNames { get; } = new()
     {
@@ -36,18 +36,4 @@ internal sealed class EpisodePartItem : InfoItem<Info.EpisodePartInfo, Json.epis
         nameof(UpdatedTimeUtc) => this.UpdatedTimeUtc.HasValue ? FormatDateTime(this.UpdatedTimeUtc.Value) : default,
         _ => base.GetMetadata(metadataName)
     };
-
-    public sealed class EqualityComparer : IEqualityComparer<EpisodePartItem>
-    {
-        public static IEqualityComparer<EpisodePartItem> Default { get; } = new EqualityComparer();
-
-        public bool Equals(EpisodePartItem? x, EpisodePartItem? y)
-        {
-            if (x is null && y is null) return true;
-            else if (x is not null && y is not null) return x.ID == y.ID;
-            else return false;
-        }
-
-        public int GetHashCode(EpisodePartItem obj) => obj.ID;
-    }
 }

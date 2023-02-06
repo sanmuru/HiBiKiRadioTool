@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
-internal sealed class ProgramItem : InfoItem<Info.ProgramInfo, Json.program>
+internal sealed class ProgramItem : InfoItem<Info.ProgramInfo, Json.program>, IProgramTaskItem
 {
     public string AccessID => this.info.AccessID!;
     public int ID => this.info.ID;
@@ -41,7 +41,7 @@ internal sealed class ProgramItem : InfoItem<Info.ProgramInfo, Json.program>
 
     public ProgramItem(Info.ProgramInfo info) : base(info) { }
 
-    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => ThrowEditReadOnlyException(); }
+    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => TaskItemExtensions.ThrowEditReadOnlyException(); }
 
     protected override List<string> MetadataNames { get; } = new()
     {
@@ -112,17 +112,13 @@ internal sealed class ProgramItem : InfoItem<Info.ProgramInfo, Json.program>
         _ => base.GetMetadata(metadataName)
     };
 
-    public sealed class EqualityComparer : IEqualityComparer<ProgramItem>
-    {
-        public static IEqualityComparer<ProgramItem> Default { get; } = new EqualityComparer();
+    #region IProgramTaskItem
+    IEpisodeTaskItem IProgramTaskItem.Episode => this.Episode;
 
-        public bool Equals(ProgramItem? x, ProgramItem? y)
-        {
-            if (x is null && y is null) return true;
-            else if (x is not null && y is not null) return x.ID == y.ID;
-            else return false;
-        }
+    IProgramLinkTaskItem[] IProgramTaskItem.ProgramLinks => this.ProgramLinks;
 
-        public int GetHashCode(ProgramItem obj) => obj.ID;
-    }
+    ICastTaskItem[] IProgramTaskItem.Casts => this.Casts;
+
+    ISegmentTaskItem[] IProgramTaskItem.Segments => this.Segments;
+    #endregion
 }

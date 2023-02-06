@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
-internal sealed class CastItem : InfoItem<Info.CastInfo, Json.cast>
+internal sealed class CastItem : InfoItem<Info.CastInfo, Json.cast>, ICastTaskItem
 {
     public int ID => this.info.ID;
     public string Name => this.info.Name;
@@ -18,7 +18,7 @@ internal sealed class CastItem : InfoItem<Info.CastInfo, Json.cast>
 
     public CastItem(Info.CastInfo info) : base(info) { }
 
-    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => ThrowEditReadOnlyException(); }
+    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => TaskItemExtensions.ThrowEditReadOnlyException(); }
 
     protected override List<string> MetadataNames { get; } = new()
     {
@@ -42,18 +42,4 @@ internal sealed class CastItem : InfoItem<Info.CastInfo, Json.cast>
         nameof(UpdatedTimeUtc) => this.UpdatedTimeUtc.HasValue ? FormatDateTime(this.UpdatedTimeUtc.Value) : default,
         _ => base.GetMetadata(metadataName)
     };
-
-    public sealed class EqualityComparer : IEqualityComparer<CastItem>
-    {
-        public static IEqualityComparer<CastItem> Default { get; } = new EqualityComparer();
-
-        public bool Equals(CastItem? x, CastItem? y)
-        {
-            if (x is null && y is null) return true;
-            else if (x is not null && y is not null) return x.ID == y.ID;
-            else return false;
-        }
-
-        public int GetHashCode(CastItem obj) => obj.ID;
-    }
 }

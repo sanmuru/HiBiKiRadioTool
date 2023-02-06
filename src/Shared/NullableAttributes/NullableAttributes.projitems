@@ -5,7 +5,6 @@
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>273dd4b0-ddae-4562-961e-c599de09fc81</SharedGUID>
-    <RootNamespace>System.Diagnostics.CodeAnalysis</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>System.Diagnostics.CodeAnalysis</Import_RootNamespace>

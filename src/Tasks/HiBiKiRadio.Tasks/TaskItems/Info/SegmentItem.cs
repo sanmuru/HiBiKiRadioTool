@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
-internal sealed class SegmentItem : InfoItem<Info.SegmentInfo, Json.segment>
+internal sealed class SegmentItem : InfoItem<Info.SegmentInfo, Json.segment>, ISegmentTaskItem
 {
     private readonly Lazy<SegmentPartItem[]> _segmentParts;
 
@@ -23,7 +23,7 @@ internal sealed class SegmentItem : InfoItem<Info.SegmentInfo, Json.segment>
         this._segmentParts = new(() => this.info.SegmentParts.Select(sp => new SegmentPartItem(sp)).ToArray());
     }
 
-    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => ThrowEditReadOnlyException(); }
+    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => TaskItemExtensions.ThrowEditReadOnlyException(); }
 
     protected override List<string> MetadataNames { get; } = new()
     {
@@ -48,17 +48,7 @@ internal sealed class SegmentItem : InfoItem<Info.SegmentInfo, Json.segment>
         _ => base.GetMetadata(metadataName)
     };
 
-    public sealed class EqualityComparer : IEqualityComparer<SegmentItem>
-    {
-        public static IEqualityComparer<SegmentItem> Default { get; } = new EqualityComparer();
-
-        public bool Equals(SegmentItem? x, SegmentItem? y)
-        {
-            if (x is null && y is null) return true;
-            else if (x is not null && y is not null) return x.ID == y.ID;
-            else return false;
-        }
-
-        public int GetHashCode(SegmentItem obj) => obj.ID;
-    }
+    #region ISegmentPartTaskItem
+    ISegmentPartTaskItem[] ISegmentTaskItem.SegmentParts => this.SegmentParts;
+    #endregion
 }

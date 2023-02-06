@@ -39,16 +39,11 @@ internal abstract class InfoItem<TInfo, TJsonObject> : ITaskItem
         return null;
     }
     [DoesNotReturn]
-    protected virtual void SetMetadata(string metadataName, string metadataValue) => ThrowEditReadOnlyException();
+    protected virtual void SetMetadata(string metadataName, string metadataValue) => TaskItemExtensions.ThrowEditReadOnlyException();
     [DoesNotReturn]
-    protected virtual void RemoveMetadata(string metadataName) => ThrowEditReadOnlyException();
+    protected virtual void RemoveMetadata(string metadataName) => TaskItemExtensions.ThrowEditReadOnlyException();
 
     protected string FormatDateTime(DateTime dateTime) => JsonObjectInfo<TJsonObject>.FormatDateTime(this.info, dateTime);
-#if !NET35
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-#endif
-    [DoesNotReturn]
-    protected static void ThrowEditReadOnlyException() => throw new InvalidOperationException("此任务项是只读的。");
 
     #region ITaskItem
     string ITaskItem.ItemSpec { get => this.ItemSpec; set => this.ItemSpec = value; }

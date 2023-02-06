@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
-internal sealed class EpisodeItem : InfoItem<Info.EpisodeInfo, Json.episode>
+internal sealed class EpisodeItem : InfoItem<Info.EpisodeInfo, Json.episode>, IEpisodeTaskItem
 {
     private readonly Lazy<VideoItem?> _video;
     private readonly Lazy<VideoItem?> _additionalVideo;
@@ -32,7 +32,7 @@ internal sealed class EpisodeItem : InfoItem<Info.EpisodeInfo, Json.episode>
         this._chapters = new(() => this.info.Chapters.Select(ep => new ChapterItem(ep)).ToArray());
     }
 
-    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => ThrowEditReadOnlyException(); }
+    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => TaskItemExtensions.ThrowEditReadOnlyException(); }
 
     protected override List<string> MetadataNames { get; } = new()
     {
@@ -63,17 +63,13 @@ internal sealed class EpisodeItem : InfoItem<Info.EpisodeInfo, Json.episode>
         _ => base.GetMetadata(metadataName)
     };
 
-    public sealed class EqualityComparer : IEqualityComparer<EpisodeItem>
-    {
-        public static IEqualityComparer<EpisodeItem> Default { get; } = new EqualityComparer();
+    #region IEpisodeTaskItem
+    IVideoTaskItem? IEpisodeTaskItem.Video => this.Video;
 
-        public bool Equals(EpisodeItem? x, EpisodeItem? y)
-        {
-            if (x is null && y is null) return true;
-            else if (x is not null && y is not null) return x.ID == y.ID;
-            else return false;
-        }
+    IVideoTaskItem? IEpisodeTaskItem.AdditionalVideo => this.AdditionalVideo;
 
-        public int GetHashCode(EpisodeItem obj) => obj.ID;
-    }
+    IEpisodePartTaskItem[] IEpisodeTaskItem.EpisodeParts => this.EpisodeParts;
+
+    IChapterTaskItem[] IEpisodeTaskItem.Chapters => this.Chapters;
+    #endregion
 }

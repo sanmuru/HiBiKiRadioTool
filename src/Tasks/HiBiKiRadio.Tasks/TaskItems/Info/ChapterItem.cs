@@ -6,18 +6,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
-internal sealed class ChapterItem : InfoItem<Info.ChapterInfo, Json.chapter>
+internal sealed class ChapterItem : InfoItem<Info.ChapterInfo, Json.chapter>, IChapterTaskItem
 {
     public int ID => this.info.ID;
     public string Name => this.info.Name;
     public string Description => this.info.Description;
     public TimeSpan StartTime => this.info.StartTime;
-    public Uri PCImageUri => this.PCImageUri;
-    public Uri SPImageUri => this.SPImageUri;
+    public Uri? PCImageUri => this.info.PCImageUri;
+    public Uri? SPImageUri => this.info.SPImageUri;
 
     public ChapterItem(Info.ChapterInfo info) : base(info) { }
 
-    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => ThrowEditReadOnlyException(); }
+    protected override string ItemSpec { get => this.Name; [DoesNotReturn] set => TaskItemExtensions.ThrowEditReadOnlyException(); }
 
     protected override List<string> MetadataNames { get; } = new()
     {
@@ -39,18 +39,4 @@ internal sealed class ChapterItem : InfoItem<Info.ChapterInfo, Json.chapter>
         nameof(SPImageUri) => this.SPImageUri?.AbsoluteUri,
         _ => base.GetMetadata(metadataName)
     };
-
-    public sealed class EqualityComparer : IEqualityComparer<ChapterItem>
-    {
-        public static IEqualityComparer<ChapterItem> Default { get; } = new EqualityComparer();
-
-        public bool Equals(ChapterItem? x, ChapterItem? y)
-        {
-            if (x is null && y is null) return true;
-            else if (x is not null && y is not null) return x.ID == y.ID;
-            else return false;
-        }
-
-        public int GetHashCode(ChapterItem obj) => obj.ID;
-    }
 }

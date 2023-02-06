@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HiBiKiRadioTool.Launcher"
-        xmlns:info="clr-namespace:Qtyi.HiBiKiRadio.Info;assembly=HiBiKiRadio.Core"
+        xmlns:info="clr-namespace:Qtyi.HiBiKiRadio.Info;assembly=Qtyi.HiBiKiRadio"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -13,14 +13,16 @@
                 <ListView x:Name="lvProgramList" ItemsSource="{Binding Source={x:Static local:DataModelView.AllPrograms}}">
                     <ListView.ItemTemplate>
                         <DataTemplate DataType="{x:Type info:ProgramInfo}">
-                            <Grid>
+                            <Grid Height="100">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="180"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Image Grid.Column="0" Source="{Binding SPImageUri}"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                <Image Grid.Column="0" Source="{Binding SPImageUri}"
+                                        HorizontalAlignment="Left"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}"
+                                           Padding="8,5"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
-internal sealed class VideoItem : InfoItem<Info.VideoInfo, Json.video>
+internal sealed class VideoItem : InfoItem<Info.VideoInfo, Json.video>, IVideoTaskItem
 {
     public int ID => this.info.ID;
     public TimeSpan Duration => this.info.Duration;
@@ -19,7 +19,7 @@ internal sealed class VideoItem : InfoItem<Info.VideoInfo, Json.video>
 
     public VideoItem(Info.VideoInfo info) : base(info) { }
 
-    protected override string ItemSpec { get => this.ID.ToString(); [DoesNotReturn] set => ThrowEditReadOnlyException(); }
+    protected override string ItemSpec { get => this.ID.ToString(); [DoesNotReturn] set => TaskItemExtensions.ThrowEditReadOnlyException(); }
 
     protected override List<string> MetadataNames { get; } = new()
     {
@@ -45,18 +45,4 @@ internal sealed class VideoItem : InfoItem<Info.VideoInfo, Json.video>
         nameof(MediaType) => this.MediaType.ToString(),
         _ => base.GetMetadata(metadataName)
     };
-
-    public sealed class EqualityComparer : IEqualityComparer<VideoItem>
-    {
-        public static IEqualityComparer<VideoItem> Default { get; } = new EqualityComparer();
-
-        public bool Equals(VideoItem? x, VideoItem? y)
-        {
-            if (x is null && y is null) return true;
-            else if (x is not null && y is not null) return x.ID == y.ID;
-            else return false;
-        }
-
-        public int GetHashCode(VideoItem obj) => obj.ID;
-    }
 }
