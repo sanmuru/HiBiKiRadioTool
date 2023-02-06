@@ -1,8 +1,12 @@
-﻿using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
-using SamLu.Utility.HiBiKiRadio.Tasks;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-namespace SamLu.Utility.HiBiKiRadio.Build.Tasks;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
+using Qtyi.HiBiKiRadio.Tasks;
+
+namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
 #pragma warning disable CS8618
 public class ProgramDetail : Task

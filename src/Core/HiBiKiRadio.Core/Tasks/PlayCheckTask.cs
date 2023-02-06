@@ -1,7 +1,11 @@
-﻿using SamLu.Utility.HiBiKiRadio.Info;
-using SamLu.Utility.HiBiKiRadio.Json;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-namespace SamLu.Utility.HiBiKiRadio.Tasks;
+using Qtyi.HiBiKiRadio.Info;
+using Qtyi.HiBiKiRadio.Json;
+
+namespace Qtyi.HiBiKiRadio.Tasks;
 
 public class PlayCheckTask : ApiTaskBase
 {

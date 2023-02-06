@@ -1,8 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!-- Licensed to the Qtyi under one or more agreements. The Qtyi licenses this file to you under the MIT license. See the LICENSE file in the project root for more information. -->
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;netstandard2.0;netstandard1.3;net35</TargetFrameworks>
-    <RootNamespace>SamLu.Utility.HiBiKiRadio</RootNamespace>
+    <RootNamespace>Qtyi.HiBiKiRadio</RootNamespace>
+    <AssemblyName>Qtyi.HiBiKiRadio</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <LangVersion>latestMajor</LangVersion>
 	  <Nullable>enable</Nullable>
@@ -39,7 +41,7 @@
 
     <Otherwise>
       <ItemGroup>
-        <Using Include="System.Net.Http" Condition="'$(TargetFramework)' != 'net35'" />
+        <Using Include="System.Net.Http" />
       </ItemGroup>
       
       <ItemGroup>

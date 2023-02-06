@@ -1,8 +1,12 @@
-﻿#if !NET35
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+#if !NET35
 
 using System.Net.Http;
 
-namespace SamLu.Utility.HiBiKiRadio.Tasks;
+namespace Qtyi.HiBiKiRadio.Tasks;
 
 partial class ApiTaskBase
 {

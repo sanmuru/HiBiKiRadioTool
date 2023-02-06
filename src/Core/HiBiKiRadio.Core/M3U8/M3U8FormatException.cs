@@ -1,6 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-namespace SamLu.Utility.HiBiKiRadio.M3U8;
+using System.Runtime.Serialization;
+
+namespace Qtyi.HiBiKiRadio.M3U8;
 
 public class M3U8FormatException : FormatException
 {

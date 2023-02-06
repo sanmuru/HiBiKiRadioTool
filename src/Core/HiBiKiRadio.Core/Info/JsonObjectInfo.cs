@@ -1,6 +1,10 @@
-﻿using System.Globalization;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-namespace SamLu.Utility.HiBiKiRadio.Info;
+using System.Globalization;
+
+namespace Qtyi.HiBiKiRadio.Info;
 
 /// <summary>
 /// 表示包裹JSON映射对象的类型的基类。

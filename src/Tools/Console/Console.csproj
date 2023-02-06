@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!-- Licensed to the Qtyi under one or more agreements. The Qtyi licenses this file to you under the MIT license. See the LICENSE file in the project root for more information. -->
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -26,13 +27,25 @@
     <PackageReference Include="TaskParallelLibrary" Version="*" />
   </ItemGroup>
 
-  <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net45'))">
-    <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net461'))">
+      <ItemGroup>
+        <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" SetTargetFramework="TargetFramework=netstandard2.0" SkipGetTargetFrameworkProperties="true" />
+      </ItemGroup>
+    </When>
 
-  <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net45'))">
-	  <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" />
-  </ItemGroup>
+    <When Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net46'))">
+      <ItemGroup>
+        <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" SetTargetFramework="TargetFramework=netstandard1.3" SkipGetTargetFrameworkProperties="true" />
+      </ItemGroup>
+    </When>
+
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <Import Project="..\..\Shared\NullableAttributes\NullableAttributes.projitems" Label="Shared" />
 

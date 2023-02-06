@@ -1,8 +1,12 @@
-﻿using SamLu.Utility.HiBiKiRadio.M3U8;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Qtyi.HiBiKiRadio.M3U8;
 using System.Diagnostics;
 using System.Text;
 
-namespace SamLu.Utility.HiBiKiRadio.Tasks;
+namespace Qtyi.HiBiKiRadio.Tasks;
 
 public class PlaylistTask : ApiTaskBase
 {

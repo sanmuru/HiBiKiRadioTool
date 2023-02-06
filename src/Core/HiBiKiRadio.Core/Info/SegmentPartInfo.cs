@@ -1,7 +1,11 @@
-﻿using SamLu.Utility.HiBiKiRadio.Json;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Qtyi.HiBiKiRadio.Json;
 using System.Drawing;
 
-namespace SamLu.Utility.HiBiKiRadio.Info;
+namespace Qtyi.HiBiKiRadio.Info;
 
 public class SegmentPartInfo : JsonObjectInfo<segment_part>
 {

@@ -1,7 +1,11 @@
-﻿using System.Diagnostics;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System.Diagnostics;
 using System.Security.Cryptography;
 
-namespace SamLu.Utility.HiBiKiRadio.M3U8;
+namespace Qtyi.HiBiKiRadio.M3U8;
 
 public class M3U8Key : IDisposable
 {

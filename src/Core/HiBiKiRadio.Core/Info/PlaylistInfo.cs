@@ -1,6 +1,10 @@
-﻿using SamLu.Utility.HiBiKiRadio.Json;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-namespace SamLu.Utility.HiBiKiRadio.Info;
+using Qtyi.HiBiKiRadio.Json;
+
+namespace Qtyi.HiBiKiRadio.Info;
 
 public class PlaylistInfo : JsonObjectInfo<playlist>
 {

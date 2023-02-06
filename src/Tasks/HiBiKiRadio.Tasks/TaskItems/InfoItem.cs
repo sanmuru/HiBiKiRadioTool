@@ -1,10 +1,14 @@
-﻿using Microsoft.Build.Framework;
-using SamLu.Utility.HiBiKiRadio.Info;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Microsoft.Build.Framework;
+using Qtyi.HiBiKiRadio.Info;
 using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SamLu.Utility.HiBiKiRadio.Build.Tasks;
+namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
 internal abstract class InfoItem<TInfo, TJsonObject> : ITaskItem
     where TInfo : notnull, JsonObjectInfo<TJsonObject>

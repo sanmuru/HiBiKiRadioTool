@@ -1,6 +1,10 @@
-﻿using System.Diagnostics;
+﻿// Licensed to the Qtyi under one or more agreements.
+// The Qtyi licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-namespace SamLu.Utility.HiBiKiRadio.Tasks;
+using System.Diagnostics;
+
+namespace Qtyi.HiBiKiRadio.Tasks;
 
 /// <summary>
 /// 通过HiBiKi官方API完成的任务的基类，提供基础获取数据的方法。
