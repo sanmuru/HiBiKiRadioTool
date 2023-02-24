@@ -8,26 +8,26 @@ using System.Globalization;
 
 namespace Qtyi.HiBiKiRadio.Info;
 
-public class InformationInfo : JsonObjectInfo<information>
+public class InformationInfo : JsonObjectInfo
 {
-    public int ID => this.jObject.id;
-    public DateTime Day => DateTime.ParseExact(this.jObject.day, "yyyy.MM.dd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-    public string Name => this.jObject.name;
-    public InformationKind Kind => (InformationKind)this.jObject.kind;
-    public string KindName => this.jObject.kind_name;
-    public int Priority => this.jObject.priority;
-    public Uri LinkUri => string.IsNullOrEmpty(this.jObject.link_url) ? default : new Uri(this.jObject.link_url);
-    public Uri PCImageUri => string.IsNullOrEmpty(this.jObject.pc_image_url) ? default : new Uri(this.jObject.pc_image_url, UriKind.Absolute);
-    public Size? PCImageSize => this.jObject.pc_image_info is null ? default(Size?) : new Size(this.jObject.pc_image_info.width, this.jObject.pc_image_info.height);
-    public Uri SPImageUri => string.IsNullOrEmpty(this.jObject.sp_image_url) ? default : new Uri(this.jObject.sp_image_url, UriKind.Absolute);
-    public Size? SPImageSize => this.jObject.sp_image_info is null ? default(Size?) : new Size(this.jObject.sp_image_info.width, this.jObject.sp_image_info.height);
-    public InformationPartInfo[] InformationParts => this.jObject.information_parts.Select(ip => new InformationPartInfo(ip)).ToArray();
-    public string HtmlDescription => this.jObject.html_description;
-    public DateTime? PublishStartTimeUtc => string.IsNullOrEmpty(this.jObject.publish_start_at) ? null : DateTime.TryParseExact(this.jObject.publish_start_at, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dt) ? dt.AddHours(-9) : default;
+    public int ID => this.JsonObject.id;
+    public DateTime Day => DateTime.ParseExact(this.JsonObject.day, "yyyy.MM.dd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+    public string Name => this.JsonObject.name;
+    public InformationKind Kind => (InformationKind)this.JsonObject.kind;
+    public string KindName => this.JsonObject.kind_name;
+    public int Priority => this.JsonObject.priority;
+    public Uri LinkUri => string.IsNullOrEmpty(this.JsonObject.link_url) ? default : new Uri(this.JsonObject.link_url);
+    public Uri PCImageUri => string.IsNullOrEmpty(this.JsonObject.pc_image_url) ? default : new Uri(this.JsonObject.pc_image_url, UriKind.Absolute);
+    public Size? PCImageSize => this.JsonObject.pc_image_info is null ? default : new Size(this.JsonObject.pc_image_info.width, this.JsonObject.pc_image_info.height);
+    public Uri SPImageUri => string.IsNullOrEmpty(this.JsonObject.sp_image_url) ? default : new Uri(this.JsonObject.sp_image_url, UriKind.Absolute);
+    public Size? SPImageSize => this.JsonObject.sp_image_info is null ? default : new Size(this.JsonObject.sp_image_info.width, this.JsonObject.sp_image_info.height);
+    public InformationPartInfo[] InformationParts => this.JsonObject.information_parts.Select(ip => new InformationPartInfo(ip)).ToArray();
+    public string HtmlDescription => this.JsonObject.html_description;
+    public DateTime? PublishStartTimeUtc => string.IsNullOrEmpty(this.JsonObject.publish_start_at) ? null : DateTime.TryParseExact(this.JsonObject.publish_start_at, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt) ? dt.AddHours(-9) : default;
     public DateTime? PublishStartTime => this.PublishStartTimeUtc.HasValue ? this.PublishStartTimeUtc + (DateTime.Now - DateTime.UtcNow) : null;
-    public DateTime? PublishEndTimeUtc => string.IsNullOrEmpty(this.jObject.publish_end_at) ? null : DateTime.TryParseExact(this.jObject.publish_end_at, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dt) ? dt.AddHours(-9) : default;
+    public DateTime? PublishEndTimeUtc => string.IsNullOrEmpty(this.JsonObject.publish_end_at) ? null : DateTime.TryParseExact(this.JsonObject.publish_end_at, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt) ? dt.AddHours(-9) : default;
     public DateTime? PublishEndTime => this.PublishEndTimeUtc.HasValue ? this.PublishEndTimeUtc + (DateTime.Now - DateTime.UtcNow) : null;
-    public DateTime? UpdatedTimeUtc => string.IsNullOrEmpty(this.jObject.updated_at) ? null : DateTime.TryParseExact(this.jObject.updated_at, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dt) ? dt.AddHours(-9) : default;
+    public DateTime? UpdatedTimeUtc => string.IsNullOrEmpty(this.JsonObject.updated_at) ? null : DateTime.TryParseExact(this.JsonObject.updated_at, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt) ? dt.AddHours(-9) : default;
     public DateTime? UpdatedTime => this.UpdatedTimeUtc.HasValue ? this.UpdatedTimeUtc + (DateTime.Now - DateTime.UtcNow) : null;
 
     public InformationInfo(information jObject) : base(jObject) { }

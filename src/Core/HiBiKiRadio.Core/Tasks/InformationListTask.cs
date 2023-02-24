@@ -16,7 +16,7 @@ public class InformationListTask : ApiTaskBase
         var informations = this.FetchAsAsync<information[]>(new Uri(ApiBase, "informations"), cancellationToken).Result;
         var length = informations.Length;
         var infos = new InformationInfo[informations.Length];
-        for (int i = 0; i < length; i++)
+        for (var i = 0; i < length; i++)
         {
             cancellationToken.ThrowIfCancellationRequested();
             infos[i] = new(informations[i]);

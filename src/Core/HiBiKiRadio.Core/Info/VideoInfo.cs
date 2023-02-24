@@ -4,23 +4,22 @@
 
 using Qtyi.HiBiKiRadio.Json;
 using System.Diagnostics;
-using System.Globalization;
 
 namespace Qtyi.HiBiKiRadio.Info;
 
 [DebuggerDisplay("{Duration}")]
-public class VideoInfo : JsonObjectInfo<video>
+public class VideoInfo : JsonObjectInfo
 {
-    public int ID => this.jObject.id;
-    public TimeSpan Duration => TimeSpan.FromSeconds(this.jObject.duration);
-    public bool IsLive => this.jObject.live_flg;
-    public DateTime? DeliveryStartTimeUtc => string.IsNullOrEmpty(this.jObject.delivery_start_at) ? null : this.TryParseDateTimeUtc(this.jObject.delivery_start_at, out DateTime dt) ? dt : default;
+    public int ID => this.JsonObject.id;
+    public TimeSpan Duration => TimeSpan.FromSeconds(this.JsonObject.duration);
+    public bool IsLive => this.JsonObject.live_flg;
+    public DateTime? DeliveryStartTimeUtc => string.IsNullOrEmpty(this.JsonObject.delivery_start_at) ? null : this.TryParseDateTimeUtc(this.JsonObject.delivery_start_at, out var dt) ? dt : default;
     public DateTime? DeliveryStartTime => this.DeliveryStartTimeUtc.HasValue ? UtcToLocal(this.DeliveryStartTimeUtc.Value) : null;
-    public DateTime? DeliveryEndTimeUtc => string.IsNullOrEmpty(this.jObject.delivery_end_at) ? null : this.TryParseDateTimeUtc(this.jObject.delivery_end_at, out DateTime dt) ? dt : default;
+    public DateTime? DeliveryEndTimeUtc => string.IsNullOrEmpty(this.JsonObject.delivery_end_at) ? null : this.TryParseDateTimeUtc(this.JsonObject.delivery_end_at, out var dt) ? dt : default;
     public DateTime? DeliveryEndTime => this.DeliveryEndTimeUtc.HasValue ? UtcToLocal(this.DeliveryEndTimeUtc.Value) : null;
-    public bool IsDelivery => this.jObject.dvr_flg;
-    public bool IsReplay => this.jObject.replay_flg;
-    public int MediaType => this.jObject.media_type;
+    public bool IsDelivery => this.JsonObject.dvr_flg;
+    public bool IsReplay => this.JsonObject.replay_flg;
+    public int MediaType => this.JsonObject.media_type;
 
     public VideoInfo(video jObject) : base(jObject) { }
 }

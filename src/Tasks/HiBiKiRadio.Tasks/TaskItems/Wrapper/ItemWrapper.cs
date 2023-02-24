@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Build.Framework;
-using Qtyi.HiBiKiRadio.Info;
 
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 

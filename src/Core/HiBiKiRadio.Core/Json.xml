@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Response>
+  <Object Name="cast">
+    <Integer Name="id" Min="1"/>
+    <String Name="name"/>
+    <String Name="roll_name"/>
+    <String Name="pc_image_url"/>
+    <Object Name="pc_image_info" Type="image_info"/>
+    <String Name="sp_image_url"/>
+    <Object Name="sp_image_info" Type="image_info"/>
+    <String Name="publish_start_at"/>
+    <String Name="publish_end_at"/>
+    <String Name="updated_at"/>
+  </Object>
+</Response>

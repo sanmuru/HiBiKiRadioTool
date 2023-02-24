@@ -12,6 +12,10 @@
 
     <NoWarn>CS1591;$(NoWarn)</NoWarn>
     <NoWarn Condition="'$(TargetFramework)' != 'net6.0'">CS8600;CS8602;CS8603;CS8604;CS8618;$(NoWarn)</NoWarn>
+
+    <!-- 将生成的文件在“Generated”文件夹中生成副本。 -->
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +27,21 @@
     <Using Include="System.Threading.Tasks" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Qtyi.HiBiKiRadio.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 不将上一个源代码生成器产生的输出结果包含进入后续的运行流程。 -->
+    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/*/**/*.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Source\CoreGenerators.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(TargetFramework)' == 'net35'">
       <ItemGroup>

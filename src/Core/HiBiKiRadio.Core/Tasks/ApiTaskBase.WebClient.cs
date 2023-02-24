@@ -4,12 +4,14 @@
 
 #if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER || NETCOREAPP2_0_OR_GREATER
 
+using System.Text;
+
 namespace Qtyi.HiBiKiRadio.Tasks;
 
 partial class ApiTaskBase
 {
 #if !NET35
-    #pragma warning disable SYSLIB0014
+#pragma warning disable SYSLIB0014
 #endif
     protected sealed class WebClient : IDownloadClient
     {
@@ -19,6 +21,7 @@ partial class ApiTaskBase
         {
             this._client = new();
             this._client.Headers.Add("X-Requested-With", "XMLHttpRequest");
+            this._client.Encoding = Encoding.UTF8;
         }
 
         public WebClient(System.Net.WebClient client) => this._client = client;

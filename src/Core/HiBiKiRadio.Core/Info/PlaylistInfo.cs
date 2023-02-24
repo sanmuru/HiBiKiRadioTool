@@ -6,11 +6,11 @@ using Qtyi.HiBiKiRadio.Json;
 
 namespace Qtyi.HiBiKiRadio.Info;
 
-public class PlaylistInfo : JsonObjectInfo<playlist>
+public class PlaylistInfo : JsonObjectInfo
 {
-    public Uri PlaylistUri => new(this.jObject.playlist_url!, UriKind.Absolute);
+    public Uri PlaylistUri => new(this.JsonObject.playlist_url!, UriKind.Absolute);
 
-    public string Token => this.jObject.token!;
+    public string Token => this.JsonObject.token!;
 
     public PlaylistInfo(playlist jObject) : base(jObject) { }
 }

@@ -5,7 +5,7 @@
 namespace Qtyi.HiBiKiRadio.Json;
 
 #pragma warning disable CS1591, CS8618
-public class information_part
+internal class information_part
 {
     public int sort_order { get; set; }
     public string? description { get; set; }

@@ -1,0 +1,76 @@
+﻿<!-- Licensed to the Qtyi under one or more agreements. The Qtyi licenses this file to you under the MIT license. See the LICENSE file in the project root for more information. -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0;net6.0;net481;net462;net46;net452</TargetFrameworks>
+    <RootNamespace>Qtyi.HiBiKiRadio.UnitTests</RootNamespace>
+    <AssemblyName>Qtyi.HiBiKiRadio.UnitTests</AssemblyName>
+    <LangVersion>latestMajor</LangVersion>
+    <Nullable>enable</Nullable>
+    <NoWarn Condition="'$(TargetFramework)' != 'net7.0'">CS8600;CS8602;CS8603;CS8604;CS8618;CS8774;$(NoWarn)</NoWarn>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+  
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'net452'">
+      <ItemGroup>
+        <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" SetTargetFramework="TargetFramework=net35" SkipGetTargetFrameworkProperties="true" />
+      </ItemGroup>
+    </When>
+    
+    <When Condition="'$(TargetFramework)' == 'net46'">
+      <ItemGroup>
+        <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" SetTargetFramework="TargetFramework=netstandard1.3" SkipGetTargetFrameworkProperties="true" />
+      </ItemGroup>
+    </When>
+
+    <When Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net461'))">
+      <ItemGroup>
+        <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" SetTargetFramework="TargetFramework=netstandard2.0" SkipGetTargetFrameworkProperties="true" />
+      </ItemGroup>
+    </When>
+
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\..\Core\HiBiKiRadio.Core\HiBiKiRadio.Core.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'net452'">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.1.0" />
+        <PackageReference Include="TaskParallelLibrary" Version="*" Aliases="TPL" />
+      </ItemGroup>
+    </When>
+
+    <When Condition="'$(TargetFramework)' == 'net46'">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.1.0" />
+      </ItemGroup>
+    </When>
+
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="*" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="*" />
+    <PackageReference Include="coverlet.collector" Version="*" />
+    <PackageReference Include="Newtonsoft.Json" Version="*" />
+  </ItemGroup>
+
+</Project>

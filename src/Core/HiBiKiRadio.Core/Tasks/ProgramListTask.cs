@@ -16,7 +16,7 @@ public class ProgramListTask : ApiTaskBase
         var programs = this.FetchAsAsync<program[]>(new Uri(ApiBase, "programs"), cancellationToken).Result;
         var length = programs.Length;
         var infos = new ProgramInfo[length];
-        for (int i = 0; i < length; i++)
+        for (var i = 0; i < length; i++)
             infos[i] = new(programs[i]);
 
         return infos;

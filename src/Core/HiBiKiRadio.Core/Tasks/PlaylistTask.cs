@@ -36,7 +36,7 @@ public class PlaylistTask : ApiTaskBase
 
     private readonly IDownloadClient _client =
 #if NET35
-		new WebClient();
+        new WebClient();
 #else
         new HttpClient();
 #endif
@@ -105,7 +105,7 @@ public class PlaylistTask : ApiTaskBase
             file = clip.Uri;
         else // 音频切片中的文件地址为相对路径。
         {
-            int segmentsLength = m3u8Uri.Segments.Length;
+            var segmentsLength = m3u8Uri.Segments.Length;
             if (string.IsNullOrEmpty(m3u8Uri.Segments[segmentsLength - 1])) segmentsLength -= 1;
             var segments = new string[segmentsLength];
             Array.Copy(m3u8Uri.Segments, segments, segmentsLength);

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Build.Framework;
-using Qtyi.HiBiKiRadio.Info;
 using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -11,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Qtyi.HiBiKiRadio.Build.Tasks;
 
 internal abstract class InfoItem<TInfo, TJsonObject> : ITaskItem
-    where TInfo : notnull, JsonObjectInfo<TJsonObject>
+    where TInfo : notnull, IJsonObjectInfo<TJsonObject>
     where TJsonObject : notnull
 {
     protected TInfo info;
@@ -43,7 +42,7 @@ internal abstract class InfoItem<TInfo, TJsonObject> : ITaskItem
     [DoesNotReturn]
     protected virtual void RemoveMetadata(string metadataName) => TaskItemExtensions.ThrowEditReadOnlyException();
 
-    protected string FormatDateTime(DateTime dateTime) => JsonObjectInfo<TJsonObject>.FormatDateTime(this.info, dateTime);
+    protected string FormatDateTime(DateTime dateTime) => IJsonObjectInfo<TJsonObject>.FormatDateTime(this.info, dateTime);
 
     #region ITaskItem
     string ITaskItem.ItemSpec { get => this.ItemSpec; set => this.ItemSpec = value; }

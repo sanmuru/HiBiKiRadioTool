@@ -70,7 +70,7 @@ public class M3U8Document
         if (reader.ReadLine() != "#EXTM3U") throw new M3U8FormatException("M3U8格式错误：缺少‘EXTM3U’标签。");
         this.insections.Add(Insection.CreateTag(M3U8Tag.EXTM3U));
 
-        string line = reader.ReadLine();
+        var line = reader.ReadLine();
         while (!string.IsNullOrEmpty(line))
         {
             if (line.StartsWith("#"))

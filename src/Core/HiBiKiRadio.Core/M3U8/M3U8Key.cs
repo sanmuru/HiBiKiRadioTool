@@ -30,8 +30,8 @@ public class M3U8Key : IDisposable
                     break;
                 case "IV":
                     value = value.Substring(2);
-                    byte[] iv = new byte[value.Length / 2];
-                    for (int i = 0; i < iv.Length; i++)
+                    var iv = new byte[value.Length / 2];
+                    for (var i = 0; i < iv.Length; i++)
                     {
                         iv[i] = Convert.ToByte(value.Substring(i * 2, 2), 16);
                     }
@@ -56,14 +56,14 @@ public class M3U8Key : IDisposable
         {
             if (this.transform is null)
             {
-                byte[] key = keyProvider(this.Uri);
+                var key = keyProvider(this.Uri);
                 this.transform = Aes.Create().CreateDecryptor(key, this.IV);
             }
 
             MemoryStream ms = new();
             using (CryptoStream cs = new(stream, this.transform, CryptoStreamMode.Read))
             {
-                byte[] buffer = new byte[byte.MaxValue];
+                var buffer = new byte[byte.MaxValue];
                 int count;
                 do
                 {

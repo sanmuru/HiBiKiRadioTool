@@ -5,12 +5,12 @@
 namespace Qtyi.HiBiKiRadio.Json;
 
 #pragma warning disable CS1591, CS8618
-public class program
+internal class program
 {
-    public string? access_id { get; set; }
+    public string access_id { get; set; }
     public int id { get; set; }
-    public string? name { get; set; }
-    public string? name_kana { get; set; }
+    public string name { get; set; }
+    public string name_kana { get; set; }
     public int day_of_week { get; set; }
     public string? description { get; set; }
     public string? pc_image_url { get; set; }

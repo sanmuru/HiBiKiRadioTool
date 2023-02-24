@@ -1,0 +1,30 @@
+﻿<!-- Licensed to the Qtyi under one or more agreements. The Qtyi licenses this file to you under the MIT license. See the LICENSE file in the project root for more information. -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Qtyi.HiBiKiRadio.Generators</RootNamespace>
+    <LangVersion>latestMajor</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup Label="Compile">
+    <Compile Remove="@(Compile)" />
+
+    <Compile Include="Model\**\*.cs" />
+
+    <Compile Include="IndentWriter.cs" />
+    <Compile Include="JsonTypeGenerator.cs" />
+    <Compile Include="JsonTypeSourceWriter.cs" />
+    <Compile Include="SourceTextReader.cs" />
+    <Compile Include="StringBuilderReader.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="*" />
+  </ItemGroup>
+
+  <Import Project="..\NullableAttributes\NullableAttributes.projitems" Label="Shared" />
+
+</Project>

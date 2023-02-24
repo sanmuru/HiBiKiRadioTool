@@ -9,16 +9,18 @@ using System.Drawing;
 namespace Qtyi.HiBiKiRadio.Info;
 
 [DebuggerDisplay("{Name}")]
-public class ChapterInfo : JsonObjectInfo<chapter>
+public class ChapterInfo : JsonObjectInfo
 {
-    public int ID => this.jObject.id;
-    public string Name => this.jObject.name!;
-    public string Description => this.jObject.description!;
-    public TimeSpan StartTime => TimeSpan.FromSeconds(this.jObject.start_time);
-    public Uri? PCImageUri => string.IsNullOrEmpty(this.jObject.pc_image_url) ? default : new Uri(this.jObject.pc_image_url);
-    public Size? PCImageSize => this.jObject.pc_image_info is null ? default(Size?) : new Size(this.jObject.pc_image_info.width, this.jObject.pc_image_info.height);
-    public Uri? SPImageUri => string.IsNullOrEmpty(this.jObject.sp_image_url) ? default : new Uri(this.jObject.sp_image_url);
-    public Size? SPImageSize => this.jObject.sp_image_info is null ? default(Size?) : new Size(this.jObject.sp_image_info.width, this.jObject.sp_image_info.height);
+    internal new chapter JsonObject => (chapter)base.JsonObject;
 
-    public ChapterInfo(chapter jObject) : base(jObject) { }
+    public int ID => this.JsonObject.id;
+    public string Name => this.JsonObject.name;
+    public string Description => this.JsonObject.description;
+    public TimeSpan StartTime => TimeSpan.FromSeconds(this.JsonObject.start_time);
+    public Uri? PCImageUri => UriConverter.ConvertFrom(this.JsonObject.pc_image_url);
+    public Size? PCImageSize => SizeConverter.ConvertFrom(this.JsonObject.pc_image_info);
+    public Uri? SPImageUri => UriConverter.ConvertFrom(this.JsonObject.sp_image_url);
+    public Size? SPImageSize => SizeConverter.ConvertFrom(this.JsonObject.sp_image_info);
+
+    internal ChapterInfo(chapter jObject) : base(jObject) { }
 }

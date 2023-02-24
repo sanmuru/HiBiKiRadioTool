@@ -53,15 +53,15 @@ class Program
 
         // 创建广播对应文件夹。
         DirectoryInfo radioDir = new(@"F:\少女☆歌劇 レヴュースタァライト\广播");
-        DirectoryInfo programDir = radioDir.CreateSubdirectory(program.Name);
-        DirectoryInfo episodeDir = programDir.CreateSubdirectory(Regex.Match(program.Episode.Name, @"第(?<num>\d+)回|(?<num>.+)").Groups["num"].Value);
+        var programDir = radioDir.CreateSubdirectory(program.Name);
+        var episodeDir = programDir.CreateSubdirectory(Regex.Match(program.Episode.Name, @"第(?<num>\d+)回|(?<num>.+)").Groups["num"].Value);
         episodeDir.Create();
 
         // 创建介绍文本文件。
         FileInfo descriptionFile = new(Path.Combine(episodeDir.FullName, "description.txt"));
         if (!descriptionFile.Exists)
         {
-            using (FileStream fs = descriptionFile.Create())
+            using (var fs = descriptionFile.Create())
             using (StreamWriter writer = new(fs, Encoding.UTF8))
             {
                 foreach (var text in program.Episode.EpisodeParts.Select(ep => ep.Description.Trim()))
@@ -79,11 +79,11 @@ class Program
         // 下载介绍配图。
         DownloadImageTask downloadImageTask = new();
         var photoUris = program.Episode.EpisodeParts.Where(ep => ep.PCImageUri is not null).Select(ep => ep.PCImageUri!).ToList();
-        DirectoryInfo photoDir = episodeDir;
-        int count = photoUris.Count;
+        var photoDir = episodeDir;
+        var count = photoUris.Count;
         if (count > 1)
             photoDir = episodeDir.CreateSubdirectory("photos");
-        for (int index = 0; index < count; index++)
+        for (var index = 0; index < count; index++)
         {
             var photoUri = photoUris[index];
             FileInfo photoFile = new(
@@ -100,7 +100,7 @@ class Program
 #endif
             }
         }
-        
+
         string[] availableExtensions = { ".wav", ".flac", ".mp3", ".aac", ".wma" };
         // 重命名录音文件。
         var recordFiles =
@@ -110,12 +110,12 @@ class Program
             where availableExtensions.Contains(fileExtension)
             where fileName == "gky" || fileName == Regex.Match(program.Episode.Name, @"第(?<num>\d+)回|(?<num>.+)").Groups["num"].Value
             select fi;
-        bool mainRecordFileExists = File.Exists(Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name}.aac"));
-        bool additionalRecordFileExists = File.Exists(Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name} 楽屋裏.aac"));
+        var mainRecordFileExists = File.Exists(Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name}.aac"));
+        var additionalRecordFileExists = File.Exists(Path.Combine(episodeDir.FullName, $"{program.Name} {program.Episode.Name} 楽屋裏.aac"));
         foreach (var recordFile in recordFiles)
         {
-            bool isAdditionalRecordFile = Path.GetFileNameWithoutExtension(recordFile.Name) == "gky";
-            string newPath = Path.Combine(recordFile.Directory!.FullName, $"{program.Name} {program.Episode.Name}{(isAdditionalRecordFile ? " 楽屋裏" : string.Empty)}{recordFile.Extension}");
+            var isAdditionalRecordFile = Path.GetFileNameWithoutExtension(recordFile.Name) == "gky";
+            var newPath = Path.Combine(recordFile.Directory!.FullName, $"{program.Name} {program.Episode.Name}{(isAdditionalRecordFile ? " 楽屋裏" : string.Empty)}{recordFile.Extension}");
             if (!File.Exists(newPath))
             {
                 recordFile.MoveTo(newPath);
@@ -125,7 +125,7 @@ class Program
 
         List<Task> tasks = new(2);
         PlayCheckTask playCheckTask = new();
-        DirectoryInfo tempRoot = episodeDir.CreateSubdirectory("temp");
+        var tempRoot = episodeDir.CreateSubdirectory("temp");
         if (!mainRecordFileExists && !(program.Episode.Video == null))
         {
             tasks.Add(
@@ -135,7 +135,7 @@ class Program
                 )
             );
         }
-        if (!additionalRecordFileExists && !(program.Episode.AdditionalVideo == null))
+        if (!additionalRecordFileExists && program.Episode.AdditionalVideo is not null)
         {
             tasks.Add(
                 playCheckTask.CheckAsync(program.Episode.AdditionalVideo.ID).ContinueWith(
@@ -155,7 +155,7 @@ class Program
             select new FileInfo(file);
         foreach (var videoFile in videoFiles)
         {
-            string newPath = Path.Combine(episodeDir.FullName, $"【生肉】[{program.Episode.UpdatedTime!.Value:yyyy.MM.dd}] {program.Name} {program.Episode.Name}{(Regex.IsMatch(Path.GetFileNameWithoutExtension(videoFile.FullName).Replace("_bilibili", string.Empty), @"\bgky\b", RegexOptions.IgnoreCase) || videoFile.Length < 50 * 1024 * 1024/* 50MB */ ? " 楽屋裏" : string.Empty)}.mp4");
+            var newPath = Path.Combine(episodeDir.FullName, $"【生肉】[{program.Episode.UpdatedTime!.Value:yyyy.MM.dd}] {program.Name} {program.Episode.Name}{(Regex.IsMatch(Path.GetFileNameWithoutExtension(videoFile.FullName).Replace("_bilibili", string.Empty), @"\bgky\b", RegexOptions.IgnoreCase) || videoFile.Length < 50 * 1024 * 1024/* 50MB */ ? " 楽屋裏" : string.Empty)}.mp4");
             if (!File.Exists(newPath))
                 try
                 {
@@ -188,17 +188,17 @@ class Program
 
         var hls = video.PlaylistUri;
 
-        DirectoryInfo tempRoot = settings.TempPath is null ? new FileInfo(settings.OutputPath).Directory!.CreateSubdirectory("temp") : new DirectoryInfo(settings.TempPath);
+        var tempRoot = settings.TempPath is null ? new FileInfo(settings.OutputPath).Directory!.CreateSubdirectory("temp") : new DirectoryInfo(settings.TempPath);
         if (!tempRoot.Exists) tempRoot.Create();
-        DirectoryInfo temp = tempRoot.CreateSubdirectory(Path.GetRandomFileName());
+        var temp = tempRoot.CreateSubdirectory(Path.GetRandomFileName());
         tempRoot.Attributes |= FileAttributes.Hidden;
 
         FileInfo playlist = new(Path.Combine(temp.FullName, "playlist"));
         FileInfo outputMp4 = new(Path.Combine(temp.FullName, "output.mp4"));
         FileInfo outputAac = new(Path.Combine(temp.FullName, "output.aac"));
-        using (StreamWriter writer = playlist.CreateText())
+        using (var writer = playlist.CreateText())
         {
-            int index = 0;
+            var index = 0;
             foreach (var clipStream in
 #if NET35
                 playlistTask.DownloadAsync(hls, settings).Result

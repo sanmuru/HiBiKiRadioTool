@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Launcher", "src\Tools\Launc
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CallerAttributes", "src\Shared\CallerAttributes\CallerAttributes.shproj", "{C996ADB6-B518-47E2-A31F-2F211D2ED421}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreGenerators", "src\Shared\Source\CoreGenerators.csproj", "{394D164F-14DA-4DB9-805D-3A15D9DAC944}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiBiKiRadio.Core.UnitTests", "src\Core\HiBiKiRadio.Core.UnitTests\HiBiKiRadio.Core.UnitTests.csproj", "{482E354F-D49A-4D3D-9128-2797F2562339}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{F5940F17-5073-430E-AF33-D2B275881C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5940F17-5073-430E-AF33-D2B275881C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5940F17-5073-430E-AF33-D2B275881C86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{394D164F-14DA-4DB9-805D-3A15D9DAC944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{394D164F-14DA-4DB9-805D-3A15D9DAC944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{394D164F-14DA-4DB9-805D-3A15D9DAC944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{394D164F-14DA-4DB9-805D-3A15D9DAC944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{482E354F-D49A-4D3D-9128-2797F2562339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{482E354F-D49A-4D3D-9128-2797F2562339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{482E354F-D49A-4D3D-9128-2797F2562339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{482E354F-D49A-4D3D-9128-2797F2562339}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,12 +66,15 @@ Global
 		{E4309E62-F9F5-4963-9225-1D7DBD496E73} = {69D9D5ED-93A6-4D0E-AECF-5B2050BC850C}
 		{F5940F17-5073-430E-AF33-D2B275881C86} = {69D9D5ED-93A6-4D0E-AECF-5B2050BC850C}
 		{C996ADB6-B518-47E2-A31F-2F211D2ED421} = {4D75B46D-A8AF-4072-ACEC-130C2EA22049}
+		{394D164F-14DA-4DB9-805D-3A15D9DAC944} = {4D75B46D-A8AF-4072-ACEC-130C2EA22049}
+		{482E354F-D49A-4D3D-9128-2797F2562339} = {4D75B46D-A8AF-4072-ACEC-130C2EA22049}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7DD285D-671F-4BC4-A807-B71288453200}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Shared\NullableAttributes\NullableAttributes.projitems*{273dd4b0-ddae-4562-961e-c599de09fc81}*SharedItemsImports = 13
+		src\Shared\NullableAttributes\NullableAttributes.projitems*{394d164f-14da-4db9-805d-3a15d9dac944}*SharedItemsImports = 5
 		src\Shared\NullableAttributes\NullableAttributes.projitems*{495810fd-e36b-4439-be49-1835eb8655f8}*SharedItemsImports = 5
 		src\Shared\CallerAttributes\CallerAttributes.projitems*{b33ffe9c-be92-4f25-b2e3-3a3dcfb9c638}*SharedItemsImports = 5
 		src\Shared\NullableAttributes\NullableAttributes.projitems*{b33ffe9c-be92-4f25-b2e3-3a3dcfb9c638}*SharedItemsImports = 5
